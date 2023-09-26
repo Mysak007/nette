@@ -12,11 +12,22 @@ class Bootstrap
 {
 	public static function boot(): Configurator
 	{
+		return self::createConfigurator(true);
+	}
+
+	public static function bootForCron(): Configurator
+	{
+		# Debug mód pouze pokud existuje --debug přepínač
+		return self::createConfigurator(in_array('--debug', $_SERVER['argv'], true));
+	}
+
+	private static function createConfigurator($debugMode): Configurator
+	{
 		$configurator = new Configurator;
 		$appDir = dirname(__DIR__);
 
 		//$configurator->setDebugMode('secret@23.75.345.200'); // enable for your remote IP
-		$configurator->setDebugMode(true);
+		$configurator->setDebugMode($debugMode);
 //		Debugger::enable();
 		$configurator->enableTracy($appDir . '/log');
 		Debugger::$showBar = true;

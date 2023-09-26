@@ -1,0 +1,33 @@
+{block content}
+<a href="{link Home:default}"><- Zpět</a>
+<h1>Váš košík</h1>
+
+<table>
+    <tr>
+        <th  width="5%">Id</th>
+        <th width="15%">Název</th>
+        <th width="25%">Štítky</th>
+        <th width="5%">Cena CZK</th>
+        <th width="5%">Cena EUR</th>
+        <th width="25%">Počet</th>
+    </tr>
+    <tbody>
+    <tr n:foreach="$cartItems as $cartItem">
+        <td style="text-align: center">{$cartItem['product']->id}</td>
+        <td style="text-align: center">
+            <a href="{link ProductDetail:show $cartItem['product']->id}">{$cartItem['product']->title}</a>
+        </td>
+        <td style="text-align: center">
+            {foreach $cartItem['product']->related('product_tag_product') as $tag} {$tag->tag->title}, {/foreach}
+        </td>
+        <td style="text-align: center">{$cartItem['product']->price} Kč</td>
+        <td style="text-align: center">{$cartItem['product']->price / $eurPrice|round(2)} €</td>
+        <td style="text-align: center">{$cartItem['count']}</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<br>
+<br>
+{control orderForm}

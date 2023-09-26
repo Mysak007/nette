@@ -1,0 +1,8 @@
+{block content}
+<a href="{link Home:default}"><- Zpět</a>
+<h1>Zobrazit produkt</h1>
+
+Id: {$product->id}, <br>
+Název: {$product->title}, <br>
+Cena CZK: {$product->price} Kč,<br>
+Cena EUR: {$product->price / $priceEur|round(2)} €

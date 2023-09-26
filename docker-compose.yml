@@ -15,17 +15,17 @@ services:
       - "3306:3306"
 
   php:
-    platform: linux/x86_64
-    build: ./.docker/php
-    ports: ['9001:9000']
-    volumes: ['${CI_PROJECT_DIR:-.}:/var/www']
-    networks:
-      - nette
-
-  nginx:
-    build: ./.docker/nginx
-    ports: ['80:80']
-    volumes: ['${CI_PROJECT_DIR:-.}:/var/www']
+    image: sidewave/php:8.1-apache
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/www/
+    command: bash -c 'composer install -o && apache2ctl -D FOREGROUND'
+    ports:
+      - '80:80'
+      - '443:443'
     networks:
       - nette
 

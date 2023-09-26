@@ -1,12 +1,29 @@
 {block content}
-{*	<h1>Můj blog</h1>*}
-
-{*	<div n:foreach="$posts as $post" class="post">*}
-{*		<div class="date">{$post->created_at|date:'F j, Y'}</div>*}
-
-{*		<h2><a href="{link Post:show $post->id}">{$post->title}</a></h2>*}
-{*		<a n:href="Edit:create" n:if="$user->isLoggedIn()">Vytvořit příspěvek</a>*}
-
-{*		<div>{$post->content|truncate:256}</div>*}
-{*	</div>*}
+	<h1>Seznam produktů</h1>
+	<div  class="post">
+            <table>
+                <tr>
+                <th  width="5%">Id</th>
+                <th width="15%">Název</th>
+                <th width="25%">Štítky</th>
+                <th width="5%">Cena CZK</th>
+                <th width="5%">Cena EUR</th>
+                <th width="25%">Akce</th>
+                </tr>
+            <tbody>
+            <tr n:foreach="$products as $product">
+                <td style="text-align: center">{$product->id}</td>
+                <td style="text-align: center">
+                    <a href="{link ProductDetail:show $product->id}">{$product->title}</a>
+                </td>
+                <td style="text-align: center">
+                    {foreach $product->related('product_tag_product') as $tag} {$tag->tag->title}, {/foreach}
+                    </td>
+                <td style="text-align: center">{$product->price} Kč</td>
+                <td style="text-align: center">{($product->price) / $eurPrice|round(2)} €</td>
+                <td style="text-align: center"><a href="{link Cart:add $product->id}">Koupit</a></td>
+            </tr>
+            </tbody>
+        </table>
+	</div>
 {/block}
